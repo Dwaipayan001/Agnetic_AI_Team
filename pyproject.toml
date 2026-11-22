@@ -1,0 +1,56 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agentic-sdlc"
+version = "0.1.0"
+description = "An agent-orchestrated software delivery lifecycle platform."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Agentic SDLC contributors" }]
+dependencies = [
+  "deepagents==0.7.41",
+  "fastapi==0.165.0",
+  "langchain-core==1.8.4",
+  "langchain-openai==1.8.5",
+  "pydantic==2.13.5",
+  "python-dotenv==1.2.4",
+  "uvicorn==0.54.0",
+]
+
+[dependency-groups]
+dev = [
+  "httpx==0.28.1",
+  "pytest==9.1.1",
+  "ruff==0.16.8",
+]
+
+[project.scripts]
+agentic-sdlc-api = "agentic_sdlc.api:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agentic_sdlc"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-config --strict-markers --basetemp=.pytest-tmp"
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = [
+  ".agentic-sdlc",
+  ".pytest-tmp",
+  ".uv-cache",
+  "AGENTIC_SDLC_PLAN.md",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+
